@@ -44,31 +44,25 @@ def distance_between_points(p1,p2,distance_method):
     return distance
 
 # 计算新的簇中心
-def generate_new_centroids(clusters,k,x,x_dimension):
+def get_new_centroid_by_avg(clusters, k, x, x_dimension):
     new_centroids = np.zeros((k, x_dimension))
-    for i in range(len(clusters)):
+    for i in range(k):
         cluster_arr = np.array(clusters[i])
         new_centroid = np.average(cluster_arr, axis=0)
         new_centroids[i] = new_centroid
     return new_centroids
 
-# 两个点的差的平方和
-def square_diff(p1, p2):
-    # print(p1)
-    # print(p2)
-    a = sum(np.square(p1 - p2))
-    # print(f"两个点的差的平方和{a}")
-    return a
+
+def get_distance_with_others(point, cluster,distance_method):
+    '''计算簇内一点到簇内其他各个点的距离'''
+    return sum([distance_method(i,point) for i in cluster])
 
 # 计算SSE
 def calculate_SSE(clusters,centroids):
     sse = 0
     for centroid,cluster in zip(centroids,clusters):
-        sse_in_one_cluster = 0
         # print(centroid,cluster)
-        sse_in_one_cluster += sum([square_diff(i,centroid) for i in cluster])
-        # sse_in_one_cluster = sse_in_one_cluster/(len(cluster))
-        sse_in_one_cluster = sse_in_one_cluster
+        sse_in_one_cluster = get_distance_with_others(point=centroid,cluster=cluster,distance_method=get_Euclidean_Distance)
         sse += sse_in_one_cluster
     # print(sse)
     return sse
@@ -87,14 +81,15 @@ def bulid_clusters(x, k,centroids,distance_method):
     return clusters
 
 
-def my_k_means(x:np.ndarray,k,max_iter_times = 10,distance_method = get_Euclidean_Distance):
+def my_k_means(x: np.ndarray, k, max_iter_times=10, distance_method=get_Euclidean_Distance,
+               generate_new_controid_method=get_new_centroid_by_avg):
     x = np.array(x)
     x_dimension = x.shape[1]
     model = MyKmeansModel(x,k,x_dimension)
     sse = 0
     for i in range(max_iter_times):
         model.clusters = bulid_clusters(x,k,model.centroids,distance_method)
-        model.centroids = generate_new_centroids(model.clusters,k,x,x_dimension)
+        model.centroids = generate_new_controid_method(model.clusters, k, x, x_dimension)
         model.sse = calculate_SSE(model.clusters,model.centroids)
         # model.get_result_df()
     return model
