@@ -17,7 +17,7 @@ class MyKmeansModel:
     def __init__(self,x,k,x_dimension):
         self.centroids = self.init_centroids(x,k,x_dimension)
 
-    def show(self):
+    def get_result_df(self):
         df = pd.DataFrame()
         i = 0
         for centroid,points in zip(self.centroids,self.clusters):
@@ -29,7 +29,7 @@ class MyKmeansModel:
             df = pd.concat([df,dfi])
             i = i + 1
 
-        print(df)
+        return df
 
 
 # 欧氏距离
@@ -88,6 +88,7 @@ def bulid_clusters(x, k,centroids,distance_method):
 
 
 def my_k_means(x:np.ndarray,k,max_iter_times = 10,distance_method = get_Euclidean_Distance):
+    x = np.array(x)
     x_dimension = x.shape[1]
     model = MyKmeansModel(x,k,x_dimension)
     sse = 0
@@ -95,5 +96,29 @@ def my_k_means(x:np.ndarray,k,max_iter_times = 10,distance_method = get_Euclidea
         model.clusters = bulid_clusters(x,k,model.centroids,distance_method)
         model.centroids = generate_new_centroids(model.clusters,k,x,x_dimension)
         model.sse = calculate_SSE(model.clusters,model.centroids)
-        # model.show()
+        # model.get_result_df()
     return model
+
+
+if __name__ == '__main__':
+    import pandas as pd
+
+    # train_data = pd.DataFrame([
+    #     [0, 0],
+    #     [1, 0],
+    #     [2, 0],
+    #     [0, 1],
+    #     [3, 1],
+    #     [2, 2],
+    #     [3, 2],
+    # ])
+
+    datasavedir = r"D:\PythonEx\machinelearningIntro\data\SP500Data-月收益率平均和方差.xlsx"
+    data7 = pd.read_excel(datasavedir)
+    data7.index = data7.iloc[:, 0]
+    data7 = data7.drop("Unnamed: 0", axis=1)
+    train_data = data7
+
+    model = my_k_means(train_data, k=3)
+    df = model.get_result_df()
+    print(f"df")
