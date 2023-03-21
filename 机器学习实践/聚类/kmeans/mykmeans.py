@@ -70,7 +70,7 @@ def calculate_SSE(clusters,centroids):
 # 建簇
 def bulid_clusters(x, k,centroids,distance_method):
     clusters = [[] for i in range(k)]
-    # print(clusters)
+    # print(model)
     for i in x:
         centroids_i_distance_arr = [distance_between_points(i, centroid,distance_method) for centroid in centroids]
         # print("一个点到各个中心的距离列表")
