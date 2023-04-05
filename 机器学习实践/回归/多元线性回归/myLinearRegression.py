@@ -2,6 +2,12 @@
 
 import numpy as np
 
+def r2_score(y_test,y_pred):
+    y_avg = np.mean(y_test)
+    ss_tot = np.sum((y_test - y_avg)**2)
+    ss_res = np.sum((y_test - y_pred)**2)
+    r2 = 1 - (ss_res/ss_tot)
+    return r2
 
 def standerlize(x):
     '''标准化（最大最小）'''
@@ -13,9 +19,14 @@ def standerlize(x):
     return x
 
 # 初始化,w
-
+def init_param(x_dim):
+    w = np.ones((1,x_dim + 1))
+    return w
 
 # 预测值，损失，更新的梯度
+def linear_regress():
+    pass
+    # return prediction, loss, gredient
 
 
 # 迭代次数
@@ -24,10 +35,12 @@ def my_linear_regression(x,max_iter = 100):
     x = standerlize(x)
 
 
-# r2-score
 
 
 # 用w，b预测
+def predict(x,w):
+    y = np.dot(w,x)
+    return y
 
 # 画图
 
