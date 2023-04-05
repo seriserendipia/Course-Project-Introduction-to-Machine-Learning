@@ -24,7 +24,7 @@ def standerlize(x):
 # 初始化,w
 def init_param(x_dim):
     w = np.ones((1, x_dim)).T
-    b = 1
+    b = -2
     return w, b
 
 
@@ -72,12 +72,13 @@ if __name__ == '__main__':
     pass
 
 # %%
-    x_train = np.array([[1,2],[3,4]])
-    y_train = np.array([[3],[7]])
+    x_train = np.array([[3,0],[3,1],[7,2]])
+    y_train = np.array([[4],[5],[10]])
 
 #%%
     loss_his, params, grads = linear_train(x_train,y_train,0.01,10000)
     print(params['w'])
+    print(params['b'])
     print(min(loss_his))
 
     plt.figure(figsize=(8,6))
