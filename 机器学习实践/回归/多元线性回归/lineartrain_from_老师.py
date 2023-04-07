@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+import pandas as pd
 
 
 def r2_score(y_test, y_pred):
@@ -39,6 +40,8 @@ def linear_loss(x, y, w, b):
 
 
 def linear_train(x, y, learning_rate=0.01, epochs=100, error = 0.00001):
+    x = np.array(x)
+    y = np.array(y)
     loss_his = []
     w, b = init_param(x.shape[1])
 
@@ -60,49 +63,76 @@ def linear_train(x, y, learning_rate=0.01, epochs=100, error = 0.00001):
 
 # 用w，b预测
 def predict(x, params):
+    x = np.array(x)
     w = params['w']
     b = params['b']
-    y_pred = np.dot(w, x) + b
+    y_pred = np.dot(x, w) + b
     return y_pred
 
 
 # 画图
 
 if __name__ == '__main__':
-    pass
+
 
 # %%
-    x_train = np.array([[3,0],[3,1],[7,2]])
-    y_train = np.array([[4],[5],[10]])
+#     x_train = np.array([[3,0],[3,1],[7,2]])
+#     y_train = np.array([[4],[5],[10]])
+#
+# #%%
+#     loss_his, params, grads = linear_train(x_train,y_train,0.01,10000)
+#     print(params['w'])
+#     print(params['b'])
+#     print(min(loss_his))
+#
+#     plt.figure(figsize=(8,6))
+#     plt.plot(loss_his)
+#     plt.xlabel('迭代次数')
+#     plt.ylabel('最小损失值')
+#     plt.title('最小损失值变化')
+#     plt.show()
+#
+# #%%
 
-#%%
-    loss_his, params, grads = linear_train(x_train,y_train,0.01,10000)
+#
+# #%%
+#     print(r2_score(y_test,y_pred))
+
+
+    datadir = r"D:\PythonEx\machinelearningIntro\data\Penn World Table.xlsx"
+    df = pd.read_excel(datadir)
+    data = df[['pl_c', 'pl_i', 'pl_g', 'pl_x', 'pl_m', 'pl_k', 'rgdpe']]
+    data = np.log(data)
+    x_data = df[['pl_c', 'pl_i', 'pl_g', 'pl_x', 'pl_m', 'pl_k']]
+    y_data = df[['rgdpe']]
+
+    from sklearn.model_selection import train_test_split
+
+    X_train, X_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.9, random_state=123456)
+    # %%
+    loss_his, params, grads = linear_train(X_train, y_train, 0.2, 1000)
     print(params['w'])
     print(params['b'])
     print(min(loss_his))
 
-    plt.figure(figsize=(8,6))
-    plt.plot(loss_his)
-    plt.xlabel('迭代次数')
-    plt.ylabel('最小损失值')
-    plt.title('最小损失值变化')
+    # plt.figure(figsize=(8,6))
+    # plt.plot(loss_his)
+    # plt.xlabel('迭代次数')
+    # plt.ylabel('最小损失值')
+    # plt.title('最小损失值变化')
+    # plt.show()
+
+    y_pred = predict(X_test, params)
+    # print(y_pred)
+    # print(y_test)
+    plt.figure()
+    plt.title('预测值比较')
+    plt.scatter(x = np.arange(len(y_pred)),y = y_pred,label = '预测值')
+    plt.scatter(x = np.arange(len(y_pred)),y = y_test,label = '实际值')
+    plt.legend()
     plt.show()
-#
-# #%%
-#     y_pred = predict(x_test, params)
-#     print(y_pred)
-#     print(y_test)
-#     plt.figure()
-#     plt.title('预测值比较')
-#     plt.plot(y_pred,label = '预测值')
-#     plt.plot(y_test,label = '实际值')
-#     plt.legend()
-#     plt.show()
-#
-# #%%
-#     y_pred = y_pred.reshape(6,)
-#     y_test = y_test.reshape(6,)
-#     sns.lineplot(x = y_pred,y = y_test)
-#
-# #%%
-#     print(r2_score(y_test,y_pred))
+
+#%%
+    # y_pred = y_pred.reshape(1,)
+    # y_test = y_test.reshape(1,)
+    # sns.lineplot(x = y_pred,y = y_test)
