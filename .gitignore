@@ -1,0 +1,74 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Machine Learning specific
+checkpoint/
+*.h5
+*.pkl
+*.pth
+*.onnx
+*.mlmodel
+model_weights/
+saved_models/
+
+# Data
+data/
+*.csv
+*.dat
+*.txt
+*.json
+*.xlsx
+*.xls
+
+# Logs
+logs/
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Ignore all files and directories containing "from"
+**/*from*/**
+**/*from*.*
+
+# Specific files and directories to ignore
+回归/最优化/ML实践_回归分析from佳媛.ipynb
+回归/多元线性回归from原因/ 
