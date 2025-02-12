@@ -1,6 +1,6 @@
 # 机器学习基础课程作业 Course Project:Introduction to Machine Learning
 
-This repository contains homework assignments and projects for the Introduction to Machine Learning course. The project includes my implementations of various machine learning algorithms and techniques, from basic regression models, clustering algorithms, association rules, to neural networks, with applications on real datasets.
+This repository contains homework assignments and projects for the Introduction to Machine Learning course. The project includes my implementations from scratch of some classsic machine learning algorithms and techniques, from basic regression models, clustering algorithms, association rules, to neural networks, with applications on real datasets. 
 
 ## Project Structure
 
